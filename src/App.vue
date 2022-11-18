@@ -6,7 +6,9 @@
       <input v-model="resultado" type="text" class="w-40 mt-5 mb-5 text-black">
       <botonCrear @pulsar="busquedaApi(resultado)" />
     </div>
-
+    <div>
+      <zonaInfo :cuentaRecibida="cuenta" :paginasRecibidas="paginas"/>
+    </div>
   </div>
   <div class="flex flex-row flex-wrap items-center">
     <fichaPersonaje v-for="datos in busquedaDatos" :key="datos.id" :imagenRecibida="datos.image"
@@ -18,20 +20,24 @@
 import axios from "axios";
 import botonCrear from "./components/botonCrear.vue";
 import fichaPersonaje from "./components/fichaPersonaje.vue";
+import zonaInfo from "./components/zonaInfo.vue";
 
 export default {
   name: "App",
   components: {
     botonCrear,
     fichaPersonaje,
+    zonaInfo,
 
 
   },
   data() {
     return {
-      busquedaInfo: null,
       busquedaDatos: null,
       resultado: "",
+      cuenta:0,
+      paginas:0,
+
 
     }
 
@@ -40,8 +46,10 @@ export default {
     async busquedaApi(resultado) {
       try {
         const response = await axios.get(`https://rickandmortyapi.com/api/character/?name=${resultado}`);
-        this.busquedaInfo = response.data.info;
         this.busquedaDatos = response.data.results;
+        this.cuenta=response.data.info.count;
+        this.paginas=response.data.info.pages
+
       } catch (error) {
         console.log(error);
       }
