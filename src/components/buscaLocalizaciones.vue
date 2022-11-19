@@ -14,9 +14,9 @@
         </div>
     </div>
 
-    <div class="flex flex-row flex-wrap justify-center mt-10">
-        <ul>
-            <li class="text-green-300 text-xl" v-for="datos in busquedaDatos" :key="datos.id">{{ datos.name }}</li>
+    <div class="flex flex-row flex-wrap justify-center mt-10 bg-rose-300 mx-64">
+        <ul class="list-disc columns-3">
+            <li class="text-black text-2xl" v-for="datos in busquedaDatos" :key="datos.id">{{ datos.name }}</li>
         </ul>
     </div>
 
