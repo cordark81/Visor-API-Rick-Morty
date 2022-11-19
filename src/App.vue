@@ -1,20 +1,22 @@
 <template>
   <div class="mt-10 flex flex-wrap gap-5 justify-center ">
+    <tipoFiltros class="mr-10" @vivos="filtro" @muertos="filtro" @species="filtroSpecie" @genero="filtroGenero" />
     <div
-      class="rounded text-green-300 font-extralight text-2xl  w-52 h-52 flex flex-col justify-center items-center border border-pink-300">
+      class="rounded text-green-300 font-extralight text-2xl  w-96 h-52 flex flex-col justify-center items-center border border-pink-300">
       <h1 class="font-bold">Busqueda</h1>
-      <input v-model="resultado" type="text" class="w-40 mt-5 mb-5 text-black">
-      <botonCrear @pulsar="busquedaApi(resultado)" />
+      <input v-model="resultado" type="text" class="w-80 mt-5 mb-5 text-black">
+      <botonesPrincipales @pulsar="busquedaApi(resultado)" @reset="reset" />
     </div>
     <div>
       <zonaInfo :cuentaRecibida="cuenta" :paginasRecibidas="paginas" />
+      <div class="flex flex-row justify-center gap-4 mt-10">
+        <botonAnterior @pasaPagina="pasarPagina(this.prev)" :estado="paginacionPrev" />
+        <botonSiguiente @pasaPagina="pasarPagina(this.next)" :estado="paginacionNext" />
+
+      </div>
     </div>
   </div>
-  <div class="flex flex-row justify-center gap-4 mt-10">
-    <botonAnterior @pasaPagina="pasarPagina(this.prev)" :estado="paginacionPrev" />
-    <botonSiguiente @pasaPagina="pasarPagina(this.next)" :estado="paginacionNext" />
 
-  </div>
   <div class="flex flex-row flex-wrap justify-center items-center">
     <fichaPersonaje v-for="datos in busquedaDatos" :key="datos.id" :imagenRecibida="datos.image"
       :nombreRecibido="datos.name" />
@@ -24,20 +26,22 @@
 
 <script>
 import axios from "axios";
-import botonCrear from "./components/botonCrear.vue";
+import botonesPrincipales from "./components/botonesPrincipales.vue";
 import fichaPersonaje from "./components/fichaPersonaje.vue";
 import zonaInfo from "./components/zonaInfo.vue";
 import botonSiguiente from "./components/botonSiguiente.vue";
 import botonAnterior from "./components/botonAnterior.vue";
+import tipoFiltros from "./components/tipoFiltros.vue";
 
 export default {
   name: "App",
   components: {
-    botonCrear,
+    botonesPrincipales,
     fichaPersonaje,
     zonaInfo,
     botonSiguiente,
     botonAnterior,
+    tipoFiltros,
   },
   data() {
     return {
@@ -52,21 +56,25 @@ export default {
   },
   methods: {
     async busquedaApi(resultado) {
-      try {
-        const response = await axios.get(`https://rickandmortyapi.com/api/character/?name=${resultado}`);
-        this.busquedaDatos = response.data.results;
-        this.cuenta = response.data.info.count;
-        this.paginas = response.data.info.pages;
-        this.next = response.data.info.next;
-        this.prev = response.data.info.prev;
-
-      } catch (error) {
-        this.next = null;
-        this.prev = null;
-        console.log(error);
-      }
+      this.axiosStandard(`https://rickandmortyapi.com/api/character/?name=${resultado}`);
     },
     async pasarPagina(url) {
+      this.axiosStandard(url);
+    },
+    reset() {
+      this.resultado = "";
+    },
+    filtro(query) {
+      this.resultado = `${this.resultado}${query}`;
+
+    },
+    async filtroSpecie(query) {
+      this.axiosStandard(`${query}${this.resultado}`);
+    },
+    async filtroGenero(query){
+      this.axiosStandard(`${query}${this.resultado}`);
+    },
+    async axiosStandard(url) {
       try {
         const response = await axios.get(url);
         this.busquedaDatos = response.data.results;
