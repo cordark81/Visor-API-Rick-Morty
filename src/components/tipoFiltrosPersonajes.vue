@@ -4,20 +4,20 @@
         <h1 class=" mt-6 font-bold">Tipos de filtros</h1>
         <div class="grid grid-cols-2 w-80 h-32 ml-16 mt-5">
             <button type="button" @click="vivos"
-                class="justify-center items-center text-green-300 w-24 h-12 bg-red-700 rounded">Vivos</button>
+                class="justify-center items-center text-black w-24 h-12 bg-green-300 hover:bg-rose-300 rounded">Vivos</button>
             <button type="button" @click="muertos"
-                class="justify-center items-center text-green-300 w-24 h-12 bg-red-700 rounded">Muertos</button>
+                class="justify-center items-center text-black w-24 h-12 bg-green-300  hover:bg-rose-300 rounded">Muertos</button>
             <button type="button" @click="species"
-                class="justify-center items-center text-green-300 w-24 h-12 bg-red-700 rounded">Especies</button>
+                class="justify-center items-center text-black w-24 h-12 bg-green-300  hover:bg-rose-300 rounded">Especies</button>
             <button type="button" @click="genero"
-                class="justify-center items-center text-green-300 w-24 h-12 bg-red-700 rounded">Genero</button>
+                class="justify-center items-center text-black w-24 h-12 bg-green-300  hover:bg-rose-300 rounded">Genero</button>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "tipoFiltros",
+    name: "tipoFiltrosPersonajes",
     emits:["vivos","muertos","species","genero"],
     methods:{
         vivos(){

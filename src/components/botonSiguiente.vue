@@ -1,7 +1,7 @@
 <template>
         <div class="flex">
             <button type="button" @click="pasarPagina"
-                class="text-black w-24 h-12 bg-green-300 rounded" :disabled="estado">Siguiente</button>
+                class="text-black w-24 h-12 bg-green-300 rounded hover:bg-rose-300" :disabled="estado">Siguiente</button>
 
         </div>
     </template>
