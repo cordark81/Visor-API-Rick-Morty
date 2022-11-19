@@ -8,12 +8,9 @@
       <botonesPrincipales @pulsar="busquedaApi(resultado)" @reset="reset" />
     </div>
     <div>
-      <zonaInfo :cuentaRecibida="cuenta" :paginasRecibidas="paginas" />
-      <div class="flex flex-row justify-center gap-4 mt-10">
-        <botonAnterior @pasaPagina="pasarPagina(this.prev)" :estado="paginacionPrev" />
-        <botonSiguiente @pasaPagina="pasarPagina(this.next)" :estado="paginacionNext" />
-
-      </div>
+      <zonaInfo :cuentaRecibida="cuenta" :paginasRecibidas="paginas" :estadoAnterior="paginacionPrev"
+        :estadoSiguiente="paginacionNext" @pasarPaginaSiguiente="pasarPagina(this.next)"
+        @pasarPaginaAnterior="pasarPagina(this.prev)" />
     </div>
   </div>
 
@@ -29,8 +26,6 @@ import axios from "axios";
 import botonesPrincipales from "./components/botonesPrincipales.vue";
 import fichaPersonaje from "./components/fichaPersonaje.vue";
 import zonaInfo from "./components/zonaInfo.vue";
-import botonSiguiente from "./components/botonSiguiente.vue";
-import botonAnterior from "./components/botonAnterior.vue";
 import tipoFiltros from "./components/tipoFiltros.vue";
 
 export default {
@@ -39,8 +34,6 @@ export default {
     botonesPrincipales,
     fichaPersonaje,
     zonaInfo,
-    botonSiguiente,
-    botonAnterior,
     tipoFiltros,
   },
   data() {
@@ -71,7 +64,7 @@ export default {
     async filtroSpecie(query) {
       this.axiosStandard(`${query}${this.resultado}`);
     },
-    async filtroGenero(query){
+    async filtroGenero(query) {
       this.axiosStandard(`${query}${this.resultado}`);
     },
     async axiosStandard(url) {
